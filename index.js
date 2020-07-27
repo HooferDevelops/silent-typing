@@ -1,7 +1,9 @@
 const { Plugin } = require('powercord/entities');
 const { typing } = require('powercord/webpack');
-var enabled = false
+const fs = require('fs')
 
+var enabled = false
+let config = false
 module.exports = class SilentType extends Plugin {
     startPlugin() {
       powercord.api.commands.registerCommand({
@@ -10,7 +12,15 @@ module.exports = class SilentType extends Plugin {
         usage: '{c} [ boolean ]',
         executor:this.toggle.bind(this)
       });
-        this.oldStartTyping = typing.startTyping;
+      this.hookTyping = typing.startTyping;
+      config = window.localStorage.getItem("silenttypingenabled")
+      if (!config){
+        config = false
+      } else {
+        enabled = true
+        typing.startTyping = () => {};
+      }
+      
     }
 
     toggle(params) {
@@ -28,13 +38,16 @@ module.exports = class SilentType extends Plugin {
         }]      
       });
       if (enabled == true){
+        window.localStorage.setItem("silenttypingenabled", true);
         typing.startTyping = () => {};
       } else {
-        typing.startTyping = this.oldStartTyping;
+        window.localStorage.setItem("silenttypingenabled", false);
+        typing.startTyping = this.hookTyping;
       }
+      //JSON.stringify(config));
     }
 
     pluginWillUnload() {
-        typing.startTyping = this.oldStartTyping;
+        typing.startTyping = this.hookTyping;
     }
 };
