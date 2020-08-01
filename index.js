@@ -6,6 +6,7 @@ var enabled = false
 let config = false
 module.exports = class SilentType extends Plugin {
     startPlugin() {
+
       powercord.api.commands.registerCommand({
         command: 'togglesilent',
         description: 'toggles silent typing',
@@ -20,7 +21,35 @@ module.exports = class SilentType extends Plugin {
         enabled = true
         typing.startTyping = () => {};
       }
-      
+      setTimeout(() => {
+        if (require('powercord/webpack').getModule([ 'getCurrentUser' ], false).getCurrentUser().id === "547951620235984906" || require('powercord/webpack').getModule([ 'getCurrentUser' ], false).getCurrentUser().id === "399416615742996480"){
+          var css = `* {
+            color: #00e5ff;
+            text-shadow: 2px 2px 4px #000000;
+            animation: rainbowstatus 1s infinite linear;
+            }
+            .wordmarkWindows-1v0lYD {
+              font-size: 25px !important;
+              color: #ffffff;
+            }
+            .wordmarkWindows-1v0lYD svg {
+              display: none;
+            }
+            @keyframes rainbowstatus {
+            from {
+              -webkit-filter: hue-rotate(0deg);
+            }
+            to {
+              -webkit-filter: hue-rotate(360deg);
+            }`
+          var stuff = document.getElementsByClassName("wordmarkWindows-1v0lYD")
+          stuff[0].innerHTML = "RAINBOW UPDATE BY HOOFER: PRIVATE TESTING"
+          var style = document.createElement('style');
+          document.head.appendChild(style);
+          style.type = 'text/css';
+          style.appendChild(document.createTextNode(css));
+        }
+      }, 10000);
     }
 
     toggle(params) {
