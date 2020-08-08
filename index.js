@@ -10,7 +10,7 @@ module.exports = class SilentType extends Plugin {
       powercord.api.commands.registerCommand({
         command: 'togglesilent',
         description: 'toggles silent typing',
-        usage: '{c} [ boolean ]',
+        usage: '{c} [true/false]',
         executor:this.toggle.bind(this)
       });
       this.hookTyping = typing.startTyping;
